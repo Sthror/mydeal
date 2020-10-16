@@ -49,6 +49,17 @@ $arTask = array(
     ),
 );
 
+function countTask($arTask, $nameCategory)
+{
+    $countTasks = 0;
+    foreach ($arTask as $task) {
+        if (isset($task['category']) && $task['category'] == $nameCategory) {
+            $countTasks++;
+        }
+    }
+    return $countTasks;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -93,7 +104,7 @@ $arTask = array(
                             <?php foreach ($arCategories as $category) : ?>
                                 <li class="main-navigation__list-item">
                                     <a class="main-navigation__list-item-link" href="#"><?= $category; ?></a>
-                                    <span class="main-navigation__list-item-count">0</span>
+                                    <span class="main-navigation__list-item-count"><?php echo countTask($arTask, $category); ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -121,18 +132,16 @@ $arTask = array(
 
                         <label class="checkbox">
                             <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-                            <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks == 1) {
-                                                                                                                echo 'checked';
-                                                                                                            } ?>>
+                            <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks == 1)  echo 'checked'; ?>>
                             <span class="checkbox__text">Показывать выполненные</span>
                         </label>
                     </div>
 
                     <table class="tasks">
                         <?php foreach ($arTask as $task) : ?>
-                            <?php if($show_complete_tasks == 0 && $task["status"] !== false){
+                            <?php if ($show_complete_tasks == 0 && $task["status"] !== false) {
                                 continue;
-                            }?>
+                            } ?>
                             <tr class="tasks__item task <?php if ($task["status"] !== false) echo "task--completed"; ?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
@@ -147,7 +156,7 @@ $arTask = array(
 
                                 <td class="task__date"><?= $task['date']; ?></td>
                             </tr>
-                        <?php endforeach; ?>                       
+                        <?php endforeach; ?>
                     </table>
                 </main>
             </div>
