@@ -142,3 +142,14 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+function countTask($arTask, $nameCategory)
+{
+    $countTasks = 0;
+    foreach ($arTask as $task) {
+        if (isset($task['category']) && $task['category'] == $nameCategory) {
+            $countTasks++;
+        }
+    }
+    return $countTasks;
+}
