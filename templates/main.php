@@ -44,7 +44,7 @@
             <?php if ($show_complete_tasks == 0 && $task["status"] !== false) {
                 continue;
             } ?>
-            <tr class="tasks__item task <?php if ($task["status"] !== false) echo "task--completed"; ?>">
+            <tr class="tasks__item task<?php if ($task["status"] !== false) echo " task--completed"; ?><?php if (diffTime($task['date']) == false) echo" task--important"; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">

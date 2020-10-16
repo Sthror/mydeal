@@ -143,6 +143,7 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+
 function countTask($arTask, $nameCategory)
 {
     $countTasks = 0;
@@ -153,3 +154,15 @@ function countTask($arTask, $nameCategory)
     }
     return $countTasks;
 }
+
+function diffTime($deadline){    
+    $ny_date = strtotime($deadline);
+    $now = strtotime("now");
+    $diff = $ny_date - $now;
+    if($diff < 25 && $deadline !== "null"){       
+    return false;
+    }
+    return true;
+}
+
+
