@@ -6,6 +6,7 @@
 *.psd
 *.sublime*
 Thumbs.db
+adminer.php
 vendor
 uploads/*
 !uploads/.gitkeep
