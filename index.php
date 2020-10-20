@@ -1,54 +1,32 @@
 <?php
+$conn = new mysqli('localhost','sergey','kokoc2019','mydeal');
+if ($conn->connect_errno) {    
+    die("<h1>Не удалось подключиться к MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error."</h1>");
+}
+
+$sql = "SELECT name FROM category";
+$res = $conn->query($sql);
+while($row = $res->fetch_array()){
+    $arCategories[] = $row['name'];
+}
+
+$sql = "SELECT t.name, t.date, c.name as category, t.status  FROM task t JOIN category c ON t.category_id = c.id";
+$res = $conn->query($sql);
+while($row = $res->fetch_array()){
+    if($row['status'] == 0){
+        $row['status'] = false;
+    } else {
+        $row['status'] = true;
+    }
+    if(empty($row['date'])){
+        $row['date'] = 'null';
+    }  
+    $arTask[] = $row;    
+}
  include_once('./helpers.php');
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-$arCategories = array(
-    'Входящие',
-    'Учеба',
-    'Работа',
-    'Домашние дела',
-    'Авто',
-);
-
-$arTask = array(
-    array(
-        'name' => 'Собеседование в IT компании',
-        'date' => '01.12.2019',
-        'category' => 'Работа',
-        'status' => false,
-    ),
-    array(
-        'name' => 'Выполнить тестовое задание',
-        'date' => '25.12.2019',
-        'category' => 'Работа',
-        'status' => false,
-    ),
-    array(
-        'name' => 'Сделать задание первого раздела',
-        'date' => '21.12.2020',
-        'category' => 'Учеба',
-        'status' => true,
-    ),
-    array(
-        'name' => 'Встреча с другом',
-        'date' => '22.12.2019',
-        'category' => 'Входящие',
-        'status' => false,
-    ),
-    array(
-        'name' => 'Купить корм для кота',
-        'date' => 'null',
-        'category' => 'Домашние дела',
-        'status' => false,
-    ),
-    array(
-        'name' => 'Заказать пиццу',
-        'date' => 'null',
-        'category' => 'Домашние дела',
-        'status' => false,
-    ),
-);
 $templates = array(    
     'arTask' => $arTask,
     'arCategories' => $arCategories,
