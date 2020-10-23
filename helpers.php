@@ -127,7 +127,7 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @return string Итоговый HTML
  */
 function include_template($name, array $data = []) {
-    $name = 'templates/' . $name;
+    $name = $_SERVER["DOCUMENT_ROOT"].'/templates/' . $name;
     $result = '';
 
     if (!is_readable($name)) {
@@ -143,18 +143,6 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
-
-function countTask($arTask, $nameCategory)
-{
-    $countTasks = 0;
-    foreach ($arTask as $task) {
-        if (isset($task['category']) && $task['category'] == $nameCategory) {
-            $countTasks++;
-        }
-    }
-    return $countTasks;
-}
-
 function diffTime($deadline){    
     $ny_date = strtotime($deadline);
     $now = strtotime("now");
@@ -165,4 +153,10 @@ function diffTime($deadline){
     return true;
 }
 
-
+function getPostVal($name){
+    if(isset($_POST[$name])){
+        $name = htmlspecialchars($_POST[$name]);
+        return  $name;
+    }
+    return "";
+}

@@ -4,9 +4,9 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <?php foreach ($arCategories as $category) : ?>
-                <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?= $category; ?></a>
-                    <span class="main-navigation__list-item-count"><?php echo countTask($arTask, $category); ?></span>
+                <li class="main-navigation__list-item <?php if (isset($_GET['category']) && $_GET['category'] == $category['id']) echo 'main-navigation__list-item--active'; ?>">
+                    <a class="main-navigation__list-item-link" href="/?category=<?= $category['id'] ?>"><?= $category['name']; ?></a>
+                    <span class="main-navigation__list-item-count"><?= $category['count_id']; ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -44,7 +44,7 @@
             <?php if ($show_complete_tasks == 0 && $task["status"] !== false) {
                 continue;
             } ?>
-            <tr class="tasks__item task<?php if ($task["status"] !== false) echo " task--completed"; ?><?php if (diffTime($task['date']) == false) echo" task--important"; ?>">
+            <tr class="tasks__item task<?php if ($task["status"] !== false) echo " task--completed"; ?><?php if (diffTime($task['date']) == false) echo " task--important"; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
@@ -53,7 +53,11 @@
                 </td>
 
                 <td class="task__file">
-                    <a class="download-link" href="#">Home.psd</a>
+                    <?php if (empty($task['file'])) : ?>
+                        <a class="download-link" href="#"></a>
+                    <?php else : ?>
+                        <a class="download-link" href="/uploads/<?=$task['filepath']?>"><?=$task['fileName']?></a>
+                    <?php endif; ?>
                 </td>
 
                 <td class="task__date"><?= $task['date']; ?></td>
