@@ -1,15 +1,15 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/config.php');
-$idForm = 1;
+$idForm = 2;
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/validate.php');
 
-$content = include_template('add.php', array(
-    'title' => 'Добавление задачи',
+$content = include_template('register.php', array(
+    'title' => 'Регистрация нового пользователя',
     'arCategories' => $arCategories,
     'errors' => $errors,
 ));
 $dataPages = array(
-    'title' => 'Добавление задачи',   
+    'title' => 'Регистрация нового пользователя',   
     'arCategories' => $arCategories,
     'content' => $content,
     'auth' => $auth,

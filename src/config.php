@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $conn = new mysqli('localhost', 'sergey', 'kokoc2019', 'mydeal');
 if ($conn->connect_errno) {
     die("<h1>Не удалось подключиться к MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error . "</h1>");
@@ -24,4 +24,7 @@ while ($row = $res->fetch_array()) {
 }
 
 include_once($_SERVER["DOCUMENT_ROOT"] . '/helpers.php');
-// показывать или нет выполненные задачи
+$auth = false;
+if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
+    $auth = true;
+}

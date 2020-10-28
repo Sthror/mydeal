@@ -53,11 +53,7 @@
                 </td>
 
                 <td class="task__file">
-                    <?php if (empty($task['file'])) : ?>
-                        <a class="download-link" href="#"></a>
-                    <?php else : ?>
-                        <a class="download-link" href="/uploads/<?=$task['filepath']?>"><?=$task['fileName']?></a>
-                    <?php endif; ?>
+                    <a class="download-link" href="/uploads/<?= $task['filePath'] ?>"><?= $task['fileName'] ?></a>
                 </td>
 
                 <td class="task__date"><?= $task['date']; ?></td>
