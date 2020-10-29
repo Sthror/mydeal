@@ -13,7 +13,7 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date) {
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
 
@@ -96,7 +96,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form (int $number, string $one, string $two, string $many)
 {
     $number = (int) $number;
     $mod10 = $number % 10;

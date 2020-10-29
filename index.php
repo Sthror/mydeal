@@ -1,5 +1,6 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/config.php');
+die('123');
 $template = 'guest.php';
 if($auth == true){
 $template = 'main.php';
