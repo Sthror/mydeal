@@ -28,7 +28,7 @@ if (!empty($_POST)) {
         $errors['email'] = "Этот адрес почты уже зарегистрирован";
     } else if(isset($res_email) && mysqli_num_rows($res_email) > 0 && $idForm == 3){
         $authEmail = true;
-    } else {
+    } else if($idForm == 3){
         $errors['auth'] = "Неверный логин/пароль";
     }
     if (!empty($_POST['project']) && !in_array($_POST['project'], array_column($arCategories, 'id'))) {
@@ -49,32 +49,33 @@ if (!empty($_FILES['file']['name'])) {
 }
 if (!empty($_POST) && empty($errors)) {
     switch ($idForm) {
-        case 1:
+        case 1: // форма добавления задачи
             $task = $_POST;
             $task['file'] = '';
             if (!empty($_FILES['file']['name'])) {
                 $task['file'] = $filePath;
             }
-            $sql = 'INSERT INTO task (name, category_id, date, file, user_id, status) VALUES (?, ?, ?, ?, 1, 0)';
+            $sql = 'INSERT INTO task (name, category_id, date, file, user_id, status) VALUES (?, ?, ?, ?, '.$_SESSION['user_id'].', 0)';
             $stmt = db_get_prepare_stmt($conn, $sql, $task);
             $res = mysqli_stmt_execute($stmt);
             if ($res) {
                 header("location: /");
             }
             break;
-        case 2:
+        case 2: // форма регистрации
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $name = htmlspecialchars($_POST['name']);
             $user = array($userEmail, $password, $name);
             $sql = 'INSERT INTO users (email, password, name) VALUES (?, ?, ?)';
             $stmt = db_get_prepare_stmt($conn, $sql, $user);
             $res = mysqli_stmt_execute($stmt);
-            if ($res) {               
-                $_SESSION['user_auth'] = $userEmail;
+            if ($res) {
+                $result =  mysqli_insert_id($conn);                         
+                $_SESSION['user_id'] = $result;
                 header("location: /");
             }
             break;
-        case 3:
+        case 3: // форма аутентификации
            if($result && $authEmail == true && password_verify($_POST['password'], $result['password'])){
             $_SESSION['user_name'] = htmlspecialchars($result['name']);
             $_SESSION['user_id'] = $result['id'];
