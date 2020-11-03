@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="/css/flatpickr.min.css">
 </head>
 
-<body <?php if ($auth !== true)echo "class='body-background'";?>>
+<body 
+<?php if ($auth !== true)echo "class='body-background'";?>>
+<?php if(isset($page404)):
+echo $page404;
+ else:?>
     <h1 class="visually-hidden">Дела в порядке</h1>
 
     <div class="page-wrapper">
@@ -42,6 +46,7 @@
             </div>
         </div>
     </div>
+                <? endif; ?>
 
     <footer class="main-footer">
         <div class="container">

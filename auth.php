@@ -1,8 +1,8 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/config.php');
+include_once($_SERVER["DOCUMENT_ROOT"].'/helpers.php');
 $idForm = 3;
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/validate.php');
-
 $content = include_template('auth.php', array(
     'title' => 'Вход на сайт',    
     'errors' => $errors,

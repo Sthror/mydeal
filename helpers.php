@@ -146,7 +146,7 @@ function include_template($name, array $data = []) {
 function diffTime($deadline){    
     $ny_date = strtotime($deadline);
     $now = strtotime("now");
-    $diff = $ny_date - $now;
+    $diff = ($ny_date - $now)/3600;
     if($diff < 25 && $deadline !== "null"){       
     return false;
     }

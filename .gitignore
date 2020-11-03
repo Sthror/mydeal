@@ -9,4 +9,5 @@ Thumbs.db
 adminer.php
 vendor
 uploads/*
+src/config.php 
 !uploads/.gitkeep

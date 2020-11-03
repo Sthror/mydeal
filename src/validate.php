@@ -40,13 +40,6 @@ if (!empty($_POST)) {
         $errors['date'] = 'Дата выполнения задачи не может быть в прошлом';
     }
 }
-if (!empty($_FILES['file']['name'])) {
-    $fileName = htmlspecialchars($_FILES['file']['name']);
-    $fileURL = '/uploads/' . $fileName;
-    $filePath =  $_SERVER["DOCUMENT_ROOT"] . $fileURL;
-
-    move_uploaded_file($_FILES['file']['tmp_name'], $filePath);
-}
 if (!empty($_POST) && empty($errors)) {
     switch ($idForm) {
         case 1: // форма добавления задачи
@@ -58,6 +51,13 @@ if (!empty($_POST) && empty($errors)) {
             $sql = 'INSERT INTO task (name, category_id, date, file, user_id, status) VALUES (?, ?, ?, ?, '.$_SESSION['user_id'].', 0)';
             $stmt = db_get_prepare_stmt($conn, $sql, $task);
             $res = mysqli_stmt_execute($stmt);
+            if (!empty($_FILES['file']['name'])) {
+                $fileName = htmlspecialchars($_FILES['file']['name']);
+                $fileURL = '/uploads/' . $fileName;
+                $filePath =  $_SERVER["DOCUMENT_ROOT"] . $fileURL;
+            
+                move_uploaded_file($_FILES['file']['tmp_name'], $filePath);
+            }
             if ($res) {
                 header("location: /");
             }

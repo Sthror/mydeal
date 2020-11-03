@@ -53,7 +53,7 @@
                 </td>
 
                 <td class="task__file">
-                    <a class="download-link" href="/uploads/<?= $task['filePath'] ?>"><?= $task['fileName'] ?></a>
+                    <a class="download-link" href="<?= $task['filePath'] ?>"><?= $task['fileName'] ?></a>
                 </td>
 
                 <td class="task__date"><?= $task['date']; ?></td>
