@@ -20,15 +20,23 @@ if (!empty($_POST)) {
     } else if (isset($email) && $email !== false) {
         $userEmail = mysqli_real_escape_string($conn, $_POST['email']);
         $sql = 'SELECT * FROM users WHERE email = "' . $userEmail . '"';
-        $res_email = mysqli_query($conn, $sql);        
-        $result = $res_email ? mysqli_fetch_array($res_email, MYSQLI_ASSOC): null;                
+        $res_email = mysqli_query($conn, $sql);
+        $result = $res_email ? mysqli_fetch_array($res_email, MYSQLI_ASSOC) : null;
+    }
+    if (isset($_POST['name']) && $idForm == 4 && empty($errors)) {
+        $projectCheck = mysqli_real_escape_string($conn, getPostVal('name'));
+        $sql = 'SELECT * FROM category WHERE name = "' . $projectCheck . '"';
+        $res_check = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($res_check) > 0) {
+            $errors['name'] = "Такой проект уже существует!";
+        }
     }
     $authEmail = false;
     if (isset($res_email) && mysqli_num_rows($res_email) > 0 && $idForm == 2) {
         $errors['email'] = "Этот адрес почты уже зарегистрирован";
-    } else if(isset($res_email) && mysqli_num_rows($res_email) > 0 && $idForm == 3){
+    } else if (isset($res_email) && mysqli_num_rows($res_email) > 0 && $idForm == 3) {
         $authEmail = true;
-    } else if($idForm == 3){
+    } else if ($idForm == 3) {
         $errors['auth'] = "Неверный логин/пароль";
     }
     if (!empty($_POST['project']) && !in_array($_POST['project'], array_column($arCategories, 'id'))) {
@@ -48,14 +56,14 @@ if (!empty($_POST) && empty($errors)) {
             if (!empty($_FILES['file']['name'])) {
                 $task['file'] = $filePath;
             }
-            $sql = 'INSERT INTO task (name, category_id, date, file, user_id, status) VALUES (?, ?, ?, ?, '.$_SESSION['user_id'].', 0)';
+            $sql = 'INSERT INTO task (name, category_id, date, file, user_id, status) VALUES (?, ?, ?, ?, ' . $_SESSION['user_id'] . ', 0)';
             $stmt = db_get_prepare_stmt($conn, $sql, $task);
             $res = mysqli_stmt_execute($stmt);
             if (!empty($_FILES['file']['name'])) {
                 $fileName = htmlspecialchars($_FILES['file']['name']);
                 $fileURL = '/uploads/' . $fileName;
                 $filePath =  $_SERVER["DOCUMENT_ROOT"] . $fileURL;
-            
+
                 move_uploaded_file($_FILES['file']['tmp_name'], $filePath);
             }
             if ($res) {
@@ -70,19 +78,28 @@ if (!empty($_POST) && empty($errors)) {
             $stmt = db_get_prepare_stmt($conn, $sql, $user);
             $res = mysqli_stmt_execute($stmt);
             if ($res) {
-                $result =  mysqli_insert_id($conn);                         
+                $result =  mysqli_insert_id($conn);
                 $_SESSION['user_id'] = $result;
                 header("location: /");
             }
             break;
         case 3: // форма аутентификации
-           if($result && $authEmail == true && password_verify($_POST['password'], $result['password'])){
-            $_SESSION['user_name'] = htmlspecialchars($result['name']);
-            $_SESSION['user_id'] = $result['id'];
-            header("location: /");            
-           } else {
-            $errors['auth'] = "Неверный логин/пароль"; 
-           }
+            if ($result && $authEmail == true && password_verify($_POST['password'], $result['password'])) {
+                $_SESSION['user_name'] = htmlspecialchars($result['name']);
+                $_SESSION['user_id'] = $result['id'];
+                header("location: /");
+            } else {
+                $errors['auth'] = "Неверный логин/пароль";
+            }
+            break;
+        case 4: // форма добавления проекта
+            $nameProject = array('name' => getPostVal('name'));
+            $sql = 'INSERT INTO category (name) VALUES (?)';
+            $stmt = db_get_prepare_stmt($conn, $sql, $nameProject);
+            $res = mysqli_stmt_execute($stmt);
+            if ($res) {               
+                header("location: /");
+            }
             break;
     }
 }

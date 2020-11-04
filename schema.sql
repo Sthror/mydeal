@@ -1,14 +1,15 @@
 CREATE DATABASE mydeal CHARACTER SET utf8 COLLATE utf8_general_ci;
 use mydeal;
-CREATE TABLE users (
-  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` char(32) NOT NULL,
-  `email` char(64) NOT NULL UNIQUE,
-  `password` varchar(60) NOT NULL,
-);
+
+CREATE TABLE `users` ( 
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  `name` VARCHAR(32) NOT NULL, 
+  `email` VARCHAR(32) NOT NULL UNIQUE, 
+  `password` VARCHAR(60) NOT NULL
+  );
 CREATE TABLE category (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` char(60) NULL
+  `name` char(60) NULL UNIQUE
 );
 CREATE TABLE task (
   `id` int AUTO_INCREMENT PRIMARY KEY,
