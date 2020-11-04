@@ -18,10 +18,9 @@
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
-    <form class="search-form" action="index.php" method="post" autocomplete="off">
-        <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
-
-        <input class="search-form__submit" type="submit" name="" value="Искать">
+    <form class="search-form" action="/index.php" method="get" autocomplete="off">
+        <input class="search-form__input" type="text" name="search" value="" placeholder="Поиск по задачам">
+        <input class="search-form__submit" type="submit" name="" value="">
     </form>
 
     <div class="tasks-controls">
@@ -38,26 +37,29 @@
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
-
+    <?php if(isset($arTask['no_task'])):?> 
+        <p class="noTask"><?=$arTask['no_task'];?></p> 
+    <?php else:?>          
     <table class="tasks">
         <?php foreach ($arTask as $task) : ?>
             <?php if ($show_complete_tasks == 0 && $task["status"] !== false) {
                 continue;
             } ?>
             <tr class="tasks__item task<?php if ($task["status"] !== false) echo " task--completed"; ?><?php if (diffTime($task['date']) == false) echo " task--important"; ?>">
-                <td class="task__select">
-                    <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                        <span class="checkbox__text"><?= $task['name']; ?></span>
-                    </label>
-                </td>
-
-                <td class="task__file">
-                    <a class="download-link" href="<?= $task['filePath'] ?>"><?= $task['fileName'] ?></a>
-                </td>
-
-                <td class="task__date"><?= $task['date']; ?></td>
-            </tr>
+            <td class="task__select">
+                <label class="checkbox task__checkbox">
+                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                    <span class="checkbox__text"><?= $task['name']; ?></span>
+                </label>
+            </td>
+            
+            <td class="task__file">
+                <a class="download-link" href="<?= $task['filePath'] ?>"><?= $task['fileName'] ?></a>
+            </td>
+            
+            <td class="task__date"><?= $task['date']; ?></td>
+        </tr>
         <?php endforeach; ?>
     </table>
+    <?php endif;?>          
 </main>

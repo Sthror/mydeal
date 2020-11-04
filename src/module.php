@@ -5,6 +5,11 @@ if (isset($_GET['category'])) { // проверяю запрос на катег
     $category = " AND c.id = '" . $cat_id . "'";  // формируем запрос на показ задач одной категории 
     $page404 = true;  // по умолчанию запрос выдаст ошибку 404
 }
+$search = "";
+if (isset($_GET['search']) && !empty($_GET['search'])) { // проверяю запрос на поиск задач    
+    $search = "AND MATCH (t.name) AGAINST ('".trim(mysqli_real_escape_string($conn, $_GET['search']))."')";
+}   
+
 $userID = "";
 if(isset($_SESSION['user_id'])){
 $userID = $_SESSION['user_id'];
