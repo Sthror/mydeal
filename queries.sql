@@ -2,7 +2,7 @@ use mydeal;
 INSERT INTO `category` (`name`)
 VALUES ('Входящие'), ('Учеба'), ('Работа'), ('Домашние дела'), ('Авто');
 
-INSERT INTO `users` (`name`, `password`, `'email`)
+INSERT INTO `users` (`name`, `password`, `email`)
 VALUES 
 ('Сергей', '123', 'sergey@mydeal.ru'),
 ('Иван', '123', 'ivan@mydeal.ru');

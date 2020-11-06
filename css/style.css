@@ -445,6 +445,7 @@ a:focus {
 .tasks {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 30px;
 }
 
 .tasks__item:first-child td {

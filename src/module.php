@@ -7,7 +7,24 @@ if (isset($_GET['category'])) { // проверяю запрос на катег
 }
 $search = "";
 if (isset($_GET['search']) && !empty($_GET['search'])) { // проверяю запрос на поиск задач    
-    $search = "AND MATCH (t.name) AGAINST ('".trim(mysqli_real_escape_string($conn, $_GET['search']))."')";
+    $search = " AND MATCH (t.name) AGAINST ('".trim(mysqli_real_escape_string($conn, $_GET['search']))."')";
+}  
+
+$time = "";
+if (isset($_GET['time']) && !empty($_GET['time'])) { // проверяю запрос на поиск задач    
+    $time = htmlspecialchars($_GET['time']);
+    switch($time){
+        case 'today':
+            $time = " AND date = CURRENT_DATE";  
+        break;
+        case 'tomorrow':
+            $time = " AND date = DATE_SUB(CURRENT_DATE, INTERVAL -1 DAY)";  
+        break;
+        case 'late':
+            $time = " AND date < CURRENT_DATE";  
+        break;
+    }
+    
 }   
 
 $userID = "";

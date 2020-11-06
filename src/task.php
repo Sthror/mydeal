@@ -1,5 +1,8 @@
 <?php
-    $sql = "SELECT t.name, t.date, c.name as category, t.status, t.file, t.user_id  FROM task t JOIN category c ON t.category_id = c.id WHERE t.user_id = '" . $userID . "'$category $search"; 
+    $sql = "SELECT t.id, t.name, t.date, c.name as category, t.status, t.file, t.user_id  
+    FROM task t JOIN category c 
+    ON t.category_id = c.id 
+    WHERE t.user_id = '" . $userID . "'".$category.$time.$search; 
     $res = $conn->query($sql);
     $arTask = array();    
     if($res && mysqli_num_rows($res) > 0){

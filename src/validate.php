@@ -11,7 +11,7 @@ if (!empty($_POST)) {
         if (isset($_POST[$field]) && empty($_POST[$field])) {
             $errors[$field] = 'Поле не заполнено';
         }
-    }
+    }    
     if (!empty($_POST['email'])) {
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
     }
@@ -47,6 +47,11 @@ if (!empty($_POST)) {
     } else if (!empty($_POST['date']) && strtotime($_POST['date']) < strtotime(date('Y-m-d'))) {
         $errors['date'] = 'Дата выполнения задачи не может быть в прошлом';
     }
+    if($idForm == 5){
+       foreach($_POST as $task_id){
+         $arTaskID[]= mysqli_real_escape_string($conn, (int)$task_id); 
+       }       
+    }
 }
 if (!empty($_POST) && empty($errors)) {
     switch ($idForm) {
@@ -80,6 +85,7 @@ if (!empty($_POST) && empty($errors)) {
             if ($res) {
                 $result =  mysqli_insert_id($conn);
                 $_SESSION['user_id'] = $result;
+                $_SESSION['user_name'] = $name;
                 header("location: /");
             }
             break;
@@ -100,6 +106,19 @@ if (!empty($_POST) && empty($errors)) {
             if ($res) {               
                 header("location: /");
             }
+            break;
+        case 5: // форма изменения статуса
+            $id = implode(",", $arTaskID);                 
+            $sql = 'SELECT id, status FROM task WHERE id IN ('.$id.')';
+            $res = mysqli_query($conn, $sql);
+            while ($row = $res->fetch_array()) {
+                if($row['status'] == 1){
+                    $sql_change = 'UPDATE task SET status = "0" WHERE id = "'.$row['id'].'"';
+                }else {
+                    $sql_change = 'UPDATE task SET status = "1" WHERE id = "'.$row['id'].'"';
+                }                
+                $res_change = mysqli_query($conn, $sql_change);
+            }           
             break;
     }
 }

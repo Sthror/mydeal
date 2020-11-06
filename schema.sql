@@ -20,5 +20,5 @@ CREATE TABLE task (
   `status` int NOT NULL,
   `file` char(128),
   FOREIGN KEY(`category_id`) REFERENCES category (id),
-  FOREIGN KEY(`user_id`) REFERENCES users (id),
+  FOREIGN KEY(`user_id`) REFERENCES users (id)
 );

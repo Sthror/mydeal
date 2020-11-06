@@ -1,6 +1,8 @@
 <?php
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/config.php');
 include_once($_SERVER["DOCUMENT_ROOT"].'/src/module.php');
+$idForm = 5;
+include_once($_SERVER["DOCUMENT_ROOT"] . '/src/validate.php');
 $template = 'guest.php';
 if($auth == true){
     $template = 'main.php';
